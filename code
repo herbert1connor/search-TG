@@ -1,0 +1,14 @@
+import clarifai
+from clarifai.rest import ClarifaiApp
+
+app = ClarifaiApp(api_key='YOUR_API_KEY')
+
+def search_images_by_description(description):
+    model = app.models.get('general-v1.3')
+    response = model.predict_by_url(url='https://example.com/image.jpg')
+    concepts = response['outputs'][0]['data']['concepts']
+    matches = []
+    for concept in concepts:
+        if description.lower() in concept['name'].lower():
+            matches.append(concept['name'])
+    return matches
